@@ -34,6 +34,9 @@ def hallo():
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
+    status = dataRepository.read_last_sensors_meeting()
+    print(status)
+    socketio.emit('B2F_data', {'data': status}, broadcast=True)
 
 
 
@@ -42,11 +45,10 @@ def prog():
         print("start")
         mcp1 = Mcp(0,0)
         while True:
-            print("wh")
             waarde = mcp1.read_channel(0)
             waarde = ((1000 - waarde) / 1000) * 100
             print("repo")
-            DataRepository.create_inlezing(101, datetime.datetime.now().replace(microsecond=0), waarde)
+            dataRepository.create_inlezing(101, datetime.datetime.now().replace(microsecond=0), waarde)
             print("norepo")
             sensor_file = open(sensor_file_name, 'r')
             for line in sensor_file:
@@ -58,10 +60,10 @@ def prog():
                     temp = temp/1000
                     print("het is : {0}°C".format(temp))
             print("repo2")
-            DataRepository.create_inlezing(102, datetime.datetime.now().replace(microsecond=0), temp)
-            print("send data")
-            status = DataRepository.read_last_sensors_meeting()
-            socketio.emit('B2F_data', {'data': status})
+            dataRepository.create_inlezing(102, datetime.datetime.now().replace(microsecond=0), temp)
+            status = dataRepository.read_last_sensors_meeting()
+            print(status)
+            socketio.emit('B2F_data', {'data': status}, broadcast=True)
             time.sleep(10)
 
     except:

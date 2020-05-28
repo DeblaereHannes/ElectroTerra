@@ -12,7 +12,7 @@ class dataRepository:
 
     @staticmethod
     def read_last_sensors_meeting():
-        sql = "select s.sensorID, s.name, i.waarde, s.eenheid, i.time from inlezingen as i join sensors as s on i.sensorID = s.sensorID where s.sensorID > 100 group by s.sensorID order by time desc"
+        sql = "select s.sensorID, s.name, i.waarde, s.eenheid from inlezingen as i join sensors as s on i.sensorID = s.sensorID where s.sensorID = 101 or s.sensorID = 102 order by i.time desc limit 2;"
         return Database.get_rows(sql)
 
     @staticmethod

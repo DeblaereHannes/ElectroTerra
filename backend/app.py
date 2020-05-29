@@ -10,11 +10,10 @@ import time
 import datetime
 import threading
 
-GPIO.setmode(GPIO.BCM) #pinnumering volgens t-stuk
-
 sensor_file_name = '/sys/bus/w1/devices/28-0316620ad9ff/w1_slave'
 
 #pinnen definieren
+motor = 21
 
 # Start app
 app = Flask(__name__)
@@ -38,7 +37,25 @@ def initial_connection():
     print(status)
     socketio.emit('B2F_data', {'data': status}, broadcast=True)
 
+@socketio.on('F2B_knop_ventilator')
+def venti_actie(data):
+    print("bttn pressed")
+    actuatorid = data['actuatorid']
+    new_status = data['status_actuator']
+    print(new_status)
+    dataRepository.update_status_actuator(actuatorid, new_status)
+    status = dataRepository.read_actuator(actuatorid)
+    int(status['statusactuator'])
+    print(status)
+    if status['statusactuator'] == 1:
+        GPIO.output(motor,GPIO.HIGH)
+    elif status['statusactuator'] == 0:
+        GPIO.output(motor,GPIO.LOW)
+    socketio.emit('B2F_ventilator', {'data': status}, broadcast=True)
 
+def setup():
+    GPIO.setmode(GPIO.BCM) #pinnumering volgens t-stuk
+    GPIO.setup(motor,GPIO.OUT)
 
 def prog():
     try:
@@ -58,7 +75,7 @@ def prog():
                     #print(line[pos+2:])
                     temp = float(line[pos+2:])
                     temp = temp/1000
-                    print("het is : {0}°C".format(temp))
+                    #print("het is : {0}°C".format(temp))
             print("repo2")
             dataRepository.create_inlezing(102, datetime.datetime.now().replace(microsecond=0), temp)
             status = dataRepository.read_last_sensors_meeting()
@@ -70,6 +87,7 @@ def prog():
         print("er is een fout")
         mcp1.closespi()
 
+setup()
 threading.Timer(10, prog).start()
 
 

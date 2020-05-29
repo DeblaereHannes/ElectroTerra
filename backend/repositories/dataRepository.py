@@ -16,9 +16,19 @@ class dataRepository:
         return Database.get_rows(sql)
 
     @staticmethod
-    def create_inlezing(sensorID, time, waarde, actuatorID=None, actuatorstatus=None ):
-        sql = "INSERT INTO inlezingen(sensorID, time, waarde, actuatorID, statusactuator) VALUES (%s,%s,%s,%s,%s)"
-        params = [sensorID, time, waarde, actuatorID, actuatorstatus]
+    def create_inlezing(sensorID, time, waarde, actuatorID=None):
+        sql = "INSERT INTO inlezingen(sensorID, time, waarde, actuatorID) VALUES (%s,%s,%s,%s)"
+        params = [sensorID, time, waarde, actuatorID]
         return Database.execute_sql(sql, params)
 
-    
+    @staticmethod
+    def update_status_actuator(actuatorID, actuatorstatus):
+        sql = "update actuators set statusactuator = '%s' where actuatorID = %s"
+        params = [actuatorstatus, actuatorID]
+        return Database.execute_sql(sql, params)
+
+    @staticmethod
+    def read_actuator(actuatorID):
+        sql = "select actuatorID, name, statusactuator from actuators where actuatorID = %s"
+        params = [actuatorID]
+        return Database.get_one_row(sql, params)

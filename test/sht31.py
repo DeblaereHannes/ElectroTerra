@@ -103,12 +103,17 @@ def readbyte():
 
 def eig_acknowledge():
     delay()
+    GPIO.output(SDA,GPIO.HIGH)
+    GPIO.output(SCL,GPIO.HIGH)
+    delay()
     GPIO.output(SDA,GPIO.LOW)
     delay()
+    GPIO.output(SCL,GPIO.LOW)
     GPIO.output(SDA,GPIO.HIGH)
 
 def scl_high():
     delay()
+    GPIO.output(SCL,GPIO.HIGH)
     GPIO.setup(SCL,GPIO.IN, pull_up_down=GPIO.PUD_UP)
     delay()
     status = GPIO.input(SCL)
@@ -147,14 +152,19 @@ try:
 
     readbyte()
     eig_acknowledge()
+    print(lijst)
     readbyte()
     eig_acknowledge()
+    print(lijst)
     readbyte()
     eig_acknowledge()
+    print(lijst)
     readbyte()
     eig_acknowledge()
+    print(lijst)
     readbyte()
     eig_acknowledge()
+    print(lijst)
     readbyte()
     acknowledge()
     stopconditie()

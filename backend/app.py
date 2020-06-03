@@ -30,28 +30,23 @@ endpoint = '/api/v1'
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
+@app.route(endpoint + '/actuators/<actuatorID>', methods=['PUT'])
+def actuator_route(actuatorID):
+    print('yoyo')
+    if request.method == 'PUT':
+        print('test')
+        gegevens = dataRepository.json_or_formdata(request)
+        print(gegevens)
+        return jsonify(actuatorID=actuatorID), 200
+
+
+
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
     status = dataRepository.read_last_sensors_meeting()
     print(status)
     socketio.emit('B2F_data', {'data': status}, broadcast=True)
-
-@socketio.on('F2B_knop_ventilator')
-def venti_actie(data):
-    print("bttn pressed")
-    actuatorid = data['actuatorid']
-    new_status = data['status_actuator']
-    print(new_status)
-    dataRepository.update_status_actuator(actuatorid, new_status)
-    status = dataRepository.read_actuator(actuatorid)
-    int(status['statusactuator'])
-    print(status)
-    if status['statusactuator'] == 1:
-        GPIO.output(motor,GPIO.HIGH)
-    elif status['statusactuator'] == 0:
-        GPIO.output(motor,GPIO.LOW)
-    socketio.emit('B2F_ventilator', {'data': status}, broadcast=True)
 
 def setup():
     GPIO.setmode(GPIO.BCM) #pinnumering volgens t-stuk
@@ -81,7 +76,7 @@ def prog():
             status = dataRepository.read_last_sensors_meeting()
             print(status)
             socketio.emit('B2F_data', {'data': status}, broadcast=True)
-            time.sleep(10)
+            time.sleep(60)
 
     except:
         print("er is een fout")

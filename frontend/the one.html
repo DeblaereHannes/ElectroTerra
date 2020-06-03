@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <!-- Meta data -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ElectroTerra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://use.typekit.net/vio2pqo.css">
+    <link rel="stylesheet" href="style/screen.css" />
+
+    <!-- Script -->
+    <script defer src="script/dataHandler.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+      integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I="
+      crossorigin="anonymous"
+    ></script>
+    <script src="script/app.js"></script>
+  </head>
+
+  <body>
+    <h1>
+        ElectroTerra
+    </h1>
+    <div class="knoppen">
+      <div class="verlichting">
+        <h2>
+          verlichting:
+        </h2>
+        <div>
+          automatisch
+        </div>
+        <div>
+            aan/uit
+        </div>
+        <div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round">zonlicht</span>
+              </label>
+        </div>
+      </div>
+      <div class="ventilator">
+        <h2>
+            ventilator:
+          </h2>
+          <div>
+              aan/uit
+          </div>
+      </div>
+    </div>
+    <div class="data">
+        <div class="liveData">
+            <div>
+                <p>vochtigheid ...% datum</p>
+            </div>
+            <div>
+                <p>temperatuur ...°C datum</p>
+            </div>
+        </div>
+        <div class="grafiekData">
+            grafiek
+        </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="758" height="200" viewBox="0 0 758 200">
+  <defs>
+    <clipPath id="clip-Artboard_1">
+      <rect width="758" height="200"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_1" data-name="Artboard – 1" clip-path="url(#clip-Artboard_1)">
+    <rect width="758" height="200" fill="#fff"/>
+    <text id="ELECTRO-TERRA" transform="translate(0 34)" font-size="102" font-family="SegoeUI, Segoe UI"><tspan x="0" y="110">ELECTRO-TERRA</tspan></text>
+    <g id="Group_1" data-name="Group 1" transform="translate(46)">
+      <path id="Polygon_1" data-name="Polygon 1" d="M32,0,64,88H0Z" transform="translate(628 56)"/>
+      <path id="Polygon_2" data-name="Polygon 2" d="M12,0,24,24H0Z" transform="translate(633.239 84.828) rotate(-20)"/>
+      <path id="Polygon_3" data-name="Polygon 3" d="M12,0,24,24H0Z" transform="matrix(0.94, 0.342, -0.342, 0.94, 664.208, 76.619)"/>
+      <circle id="Ellipse_1" data-name="Ellipse 1" cx="16" cy="16" r="16" transform="translate(644 128)" fill="#fff"/>
+      <path id="Polygon_4" data-name="Polygon 4" d="M12,0,24,40H0Z" transform="translate(648 104)" fill="#fff"/>
+    </g>
+    <path id="Path_1" data-name="Path 1" d="M32-16h0L16,16,32,32,19.324,48H0L16,32,4.684,20.684,0,16Z" transform="translate(384 125) rotate(180)"/>
+  </g>
+</svg>

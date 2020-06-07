@@ -25,9 +25,9 @@ dht.begin();
 void loop()  
 { 
   if (Serial.available() > 0) {
-    Serial.println("bekijk");
+    //Serial.println("bekijk");
     bericht = Serial.readString();
-    Serial.println(bericht);
+    //Serial.println(bericht);
   }
   bericht.trim();
   if (bericht == "m"){
@@ -51,16 +51,11 @@ void loop()
   if (bericht == "dht") {
     hum = dht.readHumidity();
     temp= dht.readTemperature();
-    Serial.print("Humidity: ");
     Serial.print(hum);
-    Serial.print(" %, Temp: ");
-    Serial.print(temp);
-    Serial.println(" Celsius");
+    Serial.print(" ");
+    Serial.println(temp);
   } else {
-    Serial.println("niks");
   }}
   }}
   bericht = "0";
-  delay(1000);
-  
 }

@@ -22,48 +22,63 @@
   </head>
 
   <body>
-    <h1>
-        ElectroTerra
-    </h1>
-    <div class="knoppen">
-      <div class="verlichting">
-        <h2>
-          verlichting:
-        </h2>
-        <div>
-          automatisch
+    <header class="o-row c-bg">
+      <div>
+        <h1>
+          ElectroTerra
+      </h1>
+      </div>
+    </header>
+
+    <section class="o-row">
+      <div class="knoppen o-layout center">
+        <div class="verlichting o-layout__item o-layout o-layout--gutter o-layout--align-baseline o-layout--justify-space-evenly o-container-eigen">
+          <div class="">
+            <h2>
+              verlichting:
+            </h2>
+          </div>
+          <div class="c-link-cta">
+            automatisch
+          </div>
+          <div class="c-link-cta">
+              aan/uit
+          </div>
         </div>
-        <div>
-            aan/uit
-        </div>
-        <div>
-            <label class="switch">
+        <div class=" o-layout__item center">
+            <label class="switch ">
                 <input type="checkbox">
                 <span class="slider round">zonlicht</span>
               </label>
         </div>
-      </div>
-      <div class="ventilator">
-        <h2>
+        
+        <div class="ventilator o-layout__item o-layout o-layout--gutter o-layout--align-baseline o-layout--justify-space-evenly o-container-eigen">
+          <h2 class="">
             ventilator:
           </h2>
           <div>
+          
+          </div>
+          <div class="c-link-cta">
               aan/uit
           </div>
+        </div>
       </div>
-    </div>
-    <div class="data">
+    </section>
+    <section class="o-row">
+      <div class="data">
         <div class="liveData">
-            <div>
+            <div class="center">
                 <p>vochtigheid ...% datum</p>
             </div>
-            <div>
+            <div class="center">
                 <p>temperatuur ...°C datum</p>
             </div>
         </div>
-        <div class="grafiekData">
+        <div class="grafiekData center">
             grafiek
         </div>
     </div>
+    </section>
   </body>
 </html>

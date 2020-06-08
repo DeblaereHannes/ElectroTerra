@@ -16,6 +16,9 @@ try:
         recv_mesg = str(recv_mesg,encoding='utf-8')
         if (recv_mesg != ""):
             print(recv_mesg)
+        mesg = recv_mesg.split('\r')
+        lijst = mesg[0].split(" ")
+        print(lijst)
 
 except KeyboardInterrupt as e:
     print(e)

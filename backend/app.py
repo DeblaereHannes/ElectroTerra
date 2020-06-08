@@ -9,8 +9,10 @@ from RPi import GPIO
 import time
 import datetime
 import threading
+import serial
 
 sensor_file_name = '/sys/bus/w1/devices/28-0316620ad9ff/w1_slave'
+ser = serial.Serial('/dev/serial0')
 
 #pinnen definieren
 motor = 21
@@ -38,6 +40,11 @@ def actuator_route(actuatorID):
         gegevens = dataRepository.json_or_formdata(request)
         print(gegevens)
         return jsonify(actuatorID=actuatorID), 200
+
+@app.route(endpoint + '/sensors/grafiek', methods=['GET'])
+def grafiek_route():
+    geg = dataRepository.read_voor_grafiek()
+    return jsonify(grafiekData=geg), 200
 
 
 
@@ -73,6 +80,13 @@ def prog():
                     #print("het is : {0}°C".format(temp))
             print("repo2")
             dataRepository.create_inlezing(102, datetime.datetime.now().replace(microsecond=0), temp)
+            bericht = "dht"
+            ser.write(bericht.encode(encoding='utf-8'))
+            recv_mesg = ser.readline()
+            recv_mesg = str(recv_mesg,encoding='utf-8')
+            mesg = recv_mesg.split('\r')
+            lijst = mesg[0].split(" ")
+            dataRepository.create_inlezing(103, datetime.datetime.now().replace(microsecond=0), lijst[0])
             status = dataRepository.read_last_sensors_meeting()
             print(status)
             socketio.emit('B2F_data', {'data': status}, broadcast=True)

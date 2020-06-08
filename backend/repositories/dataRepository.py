@@ -12,7 +12,7 @@ class dataRepository:
 
     @staticmethod
     def read_last_sensors_meeting():
-        sql = "select s.sensorID, s.name, i.waarde, s.eenheid from inlezingen as i join sensors as s on i.sensorID = s.sensorID where s.sensorID = 101 or s.sensorID = 102 order by i.time desc limit 2;"
+        sql = "select s.sensorID, s.name, i.waarde, s.eenheid from inlezingen as i join sensors as s on i.sensorID = s.sensorID where s.sensorID = 101 or s.sensorID = 102 or s.sensorID = 103 order by i.time desc limit 3;"
         return Database.get_rows(sql)
 
     @staticmethod
@@ -32,3 +32,8 @@ class dataRepository:
         sql = "select actuatorID, name, statusactuator from actuators where actuatorID = %s"
         params = [actuatorID]
         return Database.get_one_row(sql, params)
+
+    @staticmethod
+    def read_voor_grafiek():
+        sql = "select i.time, i.waarde, s.eenheid from inlezingen as i left join sensors as s on i.sensorID = s.sensorID where i.sensorID = 103 order by time desc limit 20"
+        return Database.get_rows(sql)

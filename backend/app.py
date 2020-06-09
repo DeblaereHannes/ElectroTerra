@@ -43,8 +43,22 @@ def actuator_route(actuatorID):
 
 @app.route(endpoint + '/sensors/grafiek', methods=['GET'])
 def grafiek_route():
-    geg = dataRepository.read_voor_grafiek()
-    return jsonify(grafiekData=geg), 200
+    lijst = []
+    geg1 = dataRepository.read_voor_grafiek(103)
+    geg1.reverse()
+    #print(geg)
+    for data in geg1:
+        data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
+        #print(data['time'])
+    lijst.append(geg1)
+    geg2 = dataRepository.read_voor_grafiek(102)
+    geg2.reverse()
+    #print(geg)
+    for data in geg2:
+        data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
+        #print(data['time'])
+    lijst.append(geg2)
+    return jsonify(grafiekData=geg1), 200
 
 
 
@@ -52,6 +66,8 @@ def grafiek_route():
 def initial_connection():
     print('A new client connect')
     status = dataRepository.read_last_sensors_meeting()
+    for data in status:
+        data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
     print(status)
     socketio.emit('B2F_data', {'data': status}, broadcast=True)
 

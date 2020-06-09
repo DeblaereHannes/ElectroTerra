@@ -23,18 +23,18 @@ class dataRepository:
 
     @staticmethod
     def update_status_actuator(actuatorID, actuatorstatus):
-        sql = "update actuators set statusactuator = '%s' where actuatorID = %s"
+        sql = "update actuators set statusactuators = %s where actuatorID = %s"
         params = [actuatorstatus, actuatorID]
         return Database.execute_sql(sql, params)
 
     @staticmethod
     def read_actuator(actuatorID):
-        sql = "select actuatorID, name, statusactuator from actuators where actuatorID = %s"
+        sql = "select actuatorID, name, statusactuators from actuators where actuatorID = %s"
         params = [actuatorID]
         return Database.get_one_row(sql, params)
 
     @staticmethod
     def read_voor_grafiek(sensorID):
-        sql = "select i.time, i.waarde, s.eenheid from inlezingen as i left join sensors as s on i.sensorID = s.sensorID where i.sensorID = %s order by time desc limit 20"
+        sql = "select i.time, i.waarde, s.eenheid from inlezingen as i left join sensors as s on i.sensorID = s.sensorID where i.sensorID = %s order by time desc limit 10"
         params = [sensorID]
         return Database.get_rows(sql, params)

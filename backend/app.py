@@ -64,6 +64,28 @@ def actuator_route(actuatorID):
            return jsonify(error='shitty'), 404 
     return jsonify(error=actuatorID), 404
 
+
+@app.route(endpoint + '/actuators/<actuatorID>/<status>', methods=['PUT'])
+def actuator_route2(actuatorID, status):
+    if request.method == 'PUT':
+        actuatorID = int(actuatorID)
+        #print(actuatorID)
+        #print(type(actuatorID))
+        if actuatorID == 102:
+            bericht = status
+            ser.write(bericht.encode(encoding='utf-8'))
+            recv_mesg = ser.readline()
+            recv_mesg = str(recv_mesg,encoding='utf-8')
+            #print(recv_mesg)
+            geg = dataRepository.update_status_actuator(actuatorID, status)
+            #print(geg)
+            updateGegevens = dataRepository.read_actuator(actuatorID)
+            return jsonify(actuatorID=updateGegevens), 200
+            
+        else:
+           return jsonify(error='shitty'), 404 
+    return jsonify(error=actuatorID), 404
+
 @app.route(endpoint + '/sensors/grafiek', methods=['GET'])
 def grafiek_route():
     lijst = []

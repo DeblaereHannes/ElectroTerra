@@ -5,7 +5,7 @@ import time
 cursorB = True
 display = True
 
-class PFC_LCD:
+class PCF_LCD:
     def __init__(self, par_E, par_RS, par_SDA, par_SCL, par_address):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(par_RS,GPIO.OUT)
@@ -19,7 +19,7 @@ class PFC_LCD:
         self.pcf.start_conditie()
         self.pcf.adres()
         self.pcf.ack()
-        #print(f"byte: {value}")
+        print(f"byte: {value}")
         mask = 0x80
         for i in range(0, 8):
             bit = value & mask
@@ -63,11 +63,12 @@ class PFC_LCD:
             if lijn == "1":
                 self.send_instruction(2)
                 for i in range(0, aantal):
-                    #print(f"char = {message[i]}")
+                    print(f"char = {message[i]}")
                     self.send_character(ord(message[i]))
             elif lijn == "2":
                 self.send_instruction(168)
                 for i in range(0, aantal):
+                    print(f"char = {message[i]}")
                     self.send_character(ord(message[i]))
             else:
                 print("verkeerde lijn!!!!!!!!")

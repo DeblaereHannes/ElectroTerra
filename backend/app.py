@@ -4,7 +4,9 @@ from flask_socketio import SocketIO
 
 from helpers.Mcp import Mcp
 from repositories.dataRepository import dataRepository
+from helpers.PFC_LCD import PFC_LCD
 
+from subprocess import check_output
 from RPi import GPIO
 import time
 import datetime
@@ -18,6 +20,7 @@ auto_verlichting = False
 
 #pinnen definieren
 motor = 21
+lcd = PFC_LCD(23,24,26,19,112)
 
 def setup():
     GPIO.setmode(GPIO.BCM) #pinnumering volgens t-stuk
@@ -152,7 +155,21 @@ def prog():
     try:
         print("start")
         mcp1 = Mcp(0,0)
+        lcd.init_LCD()
+        lcd.send_instruction(12)
         while True:
+            #print('hmm')
+            lcd.clear_display()
+            #print('eyy')
+            ips = str(check_output(["hostname", "--all-ip-addresses"]))
+            #print('plss')
+            ips = ips.replace("b","").replace("'","")
+            #print('yikes')
+            ips = ips.split(" ")
+            print(ips)
+            lcd.write_message((ips[0]),"1")
+            lcd.write_message((ips[1]),"2")
+
             waarde = mcp1.read_channel(0)
             waarde = ((1000 - waarde) / 1000) * 100
             #print("repo")

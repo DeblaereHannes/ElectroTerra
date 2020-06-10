@@ -1,5 +1,5 @@
 from RPi import GPIO
-from models.PCF import PCF
+from helpers.PCF import PCF
 import time
 
 cursorB = True
@@ -38,12 +38,12 @@ class PFC_LCD:
         time.sleep(0.01)
 
     def send_instruction(self, value):
-        print(f"instructie")
+        #print(f"instructie")
         GPIO.output(self.RS,GPIO.LOW)
         self.set_data_bits(value)
 
     def send_character(self, value):
-        print(f"data")
+        #print(f"data")
         GPIO.output(self.RS,GPIO.HIGH)
         self.set_data_bits(value)
 
@@ -63,7 +63,7 @@ class PFC_LCD:
             if lijn == "1":
                 self.send_instruction(2)
                 for i in range(0, aantal):
-                    print(f"char = {message[i]}")
+                    #print(f"char = {message[i]}")
                     self.send_character(ord(message[i]))
             elif lijn == "2":
                 self.send_instruction(168)

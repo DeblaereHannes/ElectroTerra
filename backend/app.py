@@ -14,6 +14,8 @@ import serial
 sensor_file_name = '/sys/bus/w1/devices/28-0316620ad9ff/w1_slave'
 ser = serial.Serial('/dev/serial0')
 
+auto_verlichting = False
+
 #pinnen definieren
 motor = 21
 
@@ -72,15 +74,44 @@ def actuator_route2(actuatorID, status):
         #print(actuatorID)
         #print(type(actuatorID))
         if actuatorID == 102:
-            bericht = status
-            ser.write(bericht.encode(encoding='utf-8'))
-            recv_mesg = ser.readline()
-            recv_mesg = str(recv_mesg,encoding='utf-8')
-            #print(recv_mesg)
-            geg = dataRepository.update_status_actuator(actuatorID, status)
-            #print(geg)
-            updateGegevens = dataRepository.read_actuator(actuatorID)
-            return jsonify(actuatorID=updateGegevens), 200
+            global auto_verlichting
+            if status == "auto":
+                auto_verlichting = True
+                mcp1 = Mcp(0,0)
+                waarde = mcp1.read_channel(0)
+                waarde = ((1000 - waarde) / 1000) * 100
+                dataRepository.create_inlezing(101, datetime.datetime.now().replace(microsecond=0), waarde)
+                print(auto_verlichting)
+                if auto_verlichting == True:
+                    if waarde < 30:
+                        berichtje = "m"
+                        ser.write(berichtje.encode(encoding='utf-8'))
+                        recv_mesg = ser.readline()
+                        recv_mesg = str(recv_mesg,encoding='utf-8')
+                    elif waarde < 70:
+                        berichtje = "z"
+                        ser.write(berichtje.encode(encoding='utf-8'))
+                        recv_mesg = ser.readline()
+                        recv_mesg = str(recv_mesg,encoding='utf-8')
+                    else:
+                        berichtje = "u"
+                        ser.write(berichtje.encode(encoding='utf-8'))
+                        recv_mesg = ser.readline()
+                        recv_mesg = str(recv_mesg,encoding='utf-8')
+
+                geg = dataRepository.update_status_actuator(actuatorID, "automatisch")
+                return jsonify(actuatorID="auto active"), 200
+            else:
+                auto_verlichting = False
+                bericht = status
+                ser.write(bericht.encode(encoding='utf-8'))
+                recv_mesg = ser.readline()
+                recv_mesg = str(recv_mesg,encoding='utf-8')
+                #print(recv_mesg)
+                geg = dataRepository.update_status_actuator(actuatorID, status)
+                #print(geg)
+                updateGegevens = dataRepository.read_actuator(actuatorID)
+                return jsonify(actuatorID=updateGegevens), 200
             
         else:
            return jsonify(error='shitty'), 404 
@@ -103,7 +134,7 @@ def grafiek_route():
         data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
         #print(data['time'])
     lijst.append(geg2)
-    return jsonify(grafiekData=geg1), 200
+    return jsonify(grafiekData=lijst), 200
 
 
 
@@ -126,6 +157,26 @@ def prog():
             waarde = ((1000 - waarde) / 1000) * 100
             #print("repo")
             dataRepository.create_inlezing(101, datetime.datetime.now().replace(microsecond=0), waarde)
+
+            print(auto_verlichting)
+            if auto_verlichting == True:
+                if waarde < 30:
+                    berichtje = "m"
+                    ser.write(berichtje.encode(encoding='utf-8'))
+                    recv_mesg = ser.readline()
+                    recv_mesg = str(recv_mesg,encoding='utf-8')
+                elif waarde < 70:
+                    berichtje = "z"
+                    ser.write(berichtje.encode(encoding='utf-8'))
+                    recv_mesg = ser.readline()
+                    recv_mesg = str(recv_mesg,encoding='utf-8')
+                else:
+                    berichtje = "u"
+                    ser.write(berichtje.encode(encoding='utf-8'))
+                    recv_mesg = ser.readline()
+                    recv_mesg = str(recv_mesg,encoding='utf-8')
+
+
             #print("norepo")
             sensor_file = open(sensor_file_name, 'r')
             for line in sensor_file:

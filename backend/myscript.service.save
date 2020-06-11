@@ -3,8 +3,8 @@ Description=My service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u app.py
-WorkingDirectory=/home/pi/project1/ElectroTerra/backend
+ExecStart=/home/pi/project1/ElectroTerra/backend -u app.py
+WorkingDirectory=/home/pi/myscript
 StandardOutput=inherit
 StandardError=inherit
 Restart=always

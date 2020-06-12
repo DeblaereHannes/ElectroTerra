@@ -116,6 +116,17 @@ def actuator_route2(actuatorID, status):
                 updateGegevens = dataRepository.read_actuator(actuatorID)
                 return jsonify(actuatorID=updateGegevens), 200
             
+        elif actuatorID == 101:
+            if status == "0":
+                GPIO.output(motor,GPIO.LOW)
+                geg = dataRepository.update_status_actuator(actuatorID, '0')
+                print(geg)
+            elif status == "1":
+                GPIO.output(motor,GPIO.HIGH)
+                geg = dataRepository.update_status_actuator(actuatorID, '1')
+                print(geg)
+            updateGegevens = dataRepository.read_actuator(actuatorID)
+            print(updateGegevens)
         else:
            return jsonify(error='shitty'), 404 
     return jsonify(error=actuatorID), 404
@@ -127,14 +138,14 @@ def grafiek_route():
     geg1.reverse()
     #print(geg)
     for data in geg1:
-        data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
+        data['time'] = f"{data['time'].day}/{data['time'].month} {data['time'].hour}:{data['time'].minute}"
         #print(data['time'])
     lijst.append(geg1)
     geg2 = dataRepository.read_voor_grafiek(102)
     geg2.reverse()
     #print(geg)
     for data in geg2:
-        data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
+        data['time'] = f"{data['time'].day}/{data['time'].month} {data['time'].hour}:{data['time'].minute}"
         #print(data['time'])
     lijst.append(geg2)
     return jsonify(grafiekData=lijst), 200
@@ -146,7 +157,7 @@ def initial_connection():
     print('A new client connect')
     status = dataRepository.read_last_sensors_meeting()
     for data in status:
-        data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
+        data['time'] = f"{data['time'].day}/{data['time'].month} {data['time'].hour}:{data['time'].minute}"
     print(status)
     socketio.emit('B2F_data', {'data': status}, broadcast=True)
 
@@ -218,7 +229,7 @@ def prog():
             #print("repo5")
             status = dataRepository.read_last_sensors_meeting()
             for data in status:
-                data['time'] = f"{data['time'].month}/{data['time'].day} {data['time'].hour}:{data['time'].minute}"
+                data['time'] = f"{data['time'].day}/{data['time'].month} {data['time'].hour}:{data['time'].minute}"
             print(status)
             socketio.emit('B2F_data', {'data': status}, broadcast=True)
             #print("wtf")

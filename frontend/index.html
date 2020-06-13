@@ -1,89 +1,129 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <!-- Meta data -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>ElectroTerra</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="msapplication-TileColor" content="#49B5AE">
-    <meta name="theme-color" content="#49B5AE">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://use.typekit.net/vio2pqo.css">
-    <link rel="stylesheet" href="style/hope_screen.css" />
+<head>
+  <!-- Meta data -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>ElectroTerra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="msapplication-TileColor" content="#49B5AE">
+  <meta name="theme-color" content="#49B5AE">
 
-      <link rel="icon" type="image" href="/img/Artboard – 6.png">
-    <!-- Script -->
-    <script defer src="script/dataHandler.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
-      integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I="
-      crossorigin="anonymous"
-    ></script>
-    <script src="script/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  </head>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://use.typekit.net/vio2pqo.css">
+  <link rel="stylesheet" href="style/screen.css" />
 
-  <body>
-    <header class="o-row c-bg">
-      <div>
-        <h1>
-          ElectroTerra
+  <link rel="icon" type="image" href="/img/Artboard – 6.png">
+  <!-- Script -->
+  <script defer src="script/dataHandler.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+    integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  <script src="script/happ.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+
+<body>
+  <header class="o-row c-bg">
+    <div>
+      <h1>
+        ElectroTerra
       </h1>
-      </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="o-row">
-      <div class="knoppen o-layout center">
-        <div class="verlichting c-onder o-layout__item o-layout o-layout--gutter o-layout--align-baseline o-layout--justify-space-evenly o-container-eigen">
-          <div class="">
+  <section class="o-row">
+    <div class="o-container u-max-width-sm">
+      <div class="knoppen">
+        <div class="verlichting o-layout o-layout--gutter o-layout--justify-space-between c-margin">
+          <div class="o-layout__item u-flex-basis-auto">
+            <h2>Verlichting:</h2>
+          </div>
+          <div class="o-layout__item u-flex-basis-auto">
+            <div class="c-link-cta js-led" data-status="auto">
+              automatisch
+            </div>
+            <div class="c-link-cta js-led" data-status="u">
+              uit
+            </div>
+          </div>
+
+
+        </div>
+        <div class="soortverlichting o-layout o-layout--gutter o-layout--justify-space-between c-margin">
+          <div class="o-layout__item u-flex-basis-auto">
+            <h2>Soort verlichting:</h2>
+          </div>
+
+          <div class="o-layout__item u-flex-basis-auto">
+            <div class="c-link-cta js-led" data-status="z">
+              zonlicht
+            </div>
+            <div class="c-link-cta js-led" data-status="m">
+              maanlicht
+            </div>
+          </div>
+        </div>
+        <div class=" o-layout o-layout--gutter o-layout--justify-space-between c-margin">
+          <div class="o-layout__item u-flex-basis-auto">
             <h2>
-              verlichting:
+              Ventilator:
             </h2>
           </div>
-          <div class="c-link-cta js-led" data-status="auto">
-            automatisch
-          </div>
-          <div class="c-link-cta js-led" data-status="u">
+          <div class="o-layout__item u-flex-basis-auto">
+            <div class="c-link-cta js-ventilator" data-actuatorid="101" data-status="1">
+              aan
+            </div>
+            <div class="c-link-cta js-ventilator" data-actuatorid="101" data-status="0">
               uit
-          </div>
-          
-          <div class="c-link-cta js-led" data-status="z">
-            zonlicht
-          </div>
-          <div class="c-link-cta js-led" data-status="m">
-            maanlicht
-          </div>
-        </div>
-        
-        <div class="ventilator c-onder o-layout__item o-layout o-layout--gutter o-layout--align-baseline o-layout--justify-space-evenly o-container-eigen">
-          <h2 class="">
-            ventilator:
-          </h2>
-          <div>
-          
-          </div>
-          <div class="c-link-cta js-ventilator" data-actuatorid="101" data-status="0">
-              aan/uit
+            </div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="o-row">
-      <div class="data">
-        <div class="liveData js-data">
-            <div class="center">
-                <p>vochtigheid ...% datum</p>
-            </div>
-            <div class="center">
-                <p>temperatuur ...°C datum</p>
-            </div>
-        </div>
-        <div class="grafiekData center ">
-          <canvas class="c-grafiek" id="myChart" width="350px" height="350px"></canvas>
-        </div>
     </div>
-    </section>
-  </body>
+
+  </section>
+  <section class="o-row">
+    <div class="o-container u-max-width-sm">
+      <div class="liveData js-data">
+        <div class="o-layout o-layout--gutter o-layout--justify-space-between">
+          <div class="o-layout__item u-flex-basis-auto">
+            <div class="o-layout">
+              <div class="o-layout__item">
+                datum
+              </div>
+              <div class="o-layout__item">
+                vochtigheid
+              </div>
+              <div class="o-layout__item">
+                <h3>
+                  ...%
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="o-layout__item u-flex-basis-auto">
+            <div class="o-layout">
+              <div class="o-layout__item">
+                datum
+              </div>
+              <div class="o-layout__item">
+                temperatuur
+              </div>
+              <div class="o-layout__item">
+                <h3>
+                  ...°C
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grafiekData center ">
+        <canvas class="c-grafiek" id="myChart" width="350px" height="350px"></canvas>
+      </div>
+    </div>
+  </section>
+</body>
+
 </html>
